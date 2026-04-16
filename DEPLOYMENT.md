@@ -53,7 +53,7 @@ DATABASE_URL=file:./prisma/prod.db
 **Note**: SQLite works on Vercel but resets on deployment. For data persistence, migrate to PostgreSQL:
 - Change `prisma/schema.prisma` datasource provider to `"postgresql"`
 - Update `DATABASE_URL` to PostgreSQL connection string
-- Run `npx prisma migrate deploy` in Vercel
+- Run `npx prisma db push` in Vercel
 
 ### 3. Build & Deploy
 Vercel automatically:
@@ -67,7 +67,7 @@ After first deploy, run Prisma migrations and seed:
 ```bash
 # Via Vercel CLI
 vercel env add DATABASE_URL
-vercel exec npx prisma migrate deploy
+vercel exec npx prisma db push
 vercel exec npx prisma db seed
 ```
 
@@ -106,7 +106,7 @@ curl https://your-deployment.vercel.app/api/seed
 
 ### Database Connection
 - Verify `DATABASE_URL` in Vercel env vars
-- Ensure Prisma migration ran: `npx prisma migrate deploy`
+- Ensure Prisma schema was applied: `npx prisma db push`
 - Check db file permissions (relevant for SQLite)
 
 ### Styles Not Loading
