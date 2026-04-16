@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Incident {
+  id          String       @id @default(uuid())
+  title       String
+  type        String
+  status      String       @default("reported")
+  priority    String       @default("medium")
+  latitude    Float
+  longitude   Float
+  description String
+  dispatchedAt DateTime?
+  resolvedAt   DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  assignments Assignment[]
+}
+
+model Unit {
+  id          String       @id @default(uuid())
+  name        String
+  type        String       @default("fire")
+  status      String       @default("available")
+  currentLat  Float
+  currentLng  Float
+  assignments Assignment[]
+}
+
+model Hydrant {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  latitude  Float
+  longitude Float
+  status    String   @default("working")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Assignment {
+  id         String   @id @default(uuid())
+  incidentId String
+  unitId     String
+  assignedAt DateTime @default(now())
+
+  incident Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+  unit     Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+
+  @@unique([incidentId, unitId])
+}

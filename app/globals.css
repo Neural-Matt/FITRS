@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-panel-soft: #f8fafc;
+  --text-primary: #1f2937;
+  --text-muted: #6b7280;
+  --brand: #c1121f;
+  --brand-soft: #fde9ea;
+  --line: #e5e7eb;
+}
+
+body {
+  color: var(--text-primary);
+  background: #f6f7f9;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tighter headings for a control-room feel */
+h1, h2, h3, h4 {
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+@keyframes page-fade-slide {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -180px 0;
+  }
+  100% {
+    background-position: calc(180px + 100%) 0;
+  }
+}
+
+@keyframes fab-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .panel {
+    @apply rounded-xl border;
+    border-color: var(--line);
+    background-color: var(--bg-panel);
+    box-shadow: 8px 8px 16px rgba(15, 23, 42, 0.06), -4px -4px 12px rgba(255, 255, 255, 0.9);
+    transition: transform 140ms ease, box-shadow 160ms ease;
+  }
+
+  .panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 10px 10px 20px rgba(15, 23, 42, 0.08), -4px -4px 12px rgba(255, 255, 255, 0.9);
+  }
+
+  .soft-inset {
+    background-color: var(--bg-panel-soft);
+    border: 1px solid var(--line);
+    box-shadow: inset 2px 2px 6px rgba(15, 23, 42, 0.05), inset -2px -2px 6px rgba(255, 255, 255, 0.95);
+  }
+
+  .crm-btn {
+    border: 1px solid #b90f1b;
+    background-color: var(--brand);
+    color: white;
+    box-shadow: 3px 3px 8px rgba(15, 23, 42, 0.12), -2px -2px 6px rgba(255, 255, 255, 0.85);
+    transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  }
+
+  .crm-btn:hover {
+    background-color: #a80e1a;
+  }
+
+  .crm-btn:active {
+    transform: scale(0.98);
+    box-shadow: inset 2px 2px 6px rgba(15, 23, 42, 0.2);
+  }
+
+  .crm-btn-secondary {
+    border: 1px solid var(--line);
+    background-color: var(--bg-panel-soft);
+    color: var(--text-primary);
+    box-shadow: 3px 3px 8px rgba(15, 23, 42, 0.08), -2px -2px 5px rgba(255, 255, 255, 0.9);
+    transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  }
+
+  .crm-btn-secondary:active {
+    transform: scale(0.98);
+    box-shadow: inset 2px 2px 6px rgba(15, 23, 42, 0.14);
+  }
+
+  .page-transition {
+    animation: page-fade-slide 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Clickable row highlight */
+  .table-row-hover {
+    transition: background-color 100ms ease;
+  }
+
+  .table-row-hover:hover {
+    background-color: #f8fafc;
+  }
+
+  .skeleton {
+    border-radius: 0.75rem;
+    background: linear-gradient(90deg, #eef2f7 25%, #f9fbfd 37%, #eef2f7 63%);
+    background-size: 400px 100%;
+    animation: skeleton-shimmer 1.05s ease infinite;
+  }
+
+  .fab-wrap {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.75rem;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .fab-menu {
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+    transition: opacity 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .fab-menu-open {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .fab-context-pill {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b7280;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid var(--line);
+    border-radius: 9999px;
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 0.25rem;
+    box-shadow: 0 1px 4px rgba(15,23,42,0.07);
+  }
+
+  .fab-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.97);
+    padding: 0.55rem 1rem 0.55rem 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1), 0 1px 4px rgba(15, 23, 42, 0.06);
+    animation: fab-fade-up 220ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+    white-space: nowrap;
+  }
+
+  .fab-action:hover {
+    transform: translateX(-2px) translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.13), 0 2px 6px rgba(15, 23, 42, 0.07);
+  }
+
+  .fab-action-icon {
+    display: inline-flex;
+    height: 1.6rem;
+    width: 1.6rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    flex-shrink: 0;
+  }
+
+  .fab-primary {
+    display: inline-flex;
+    height: 3.5rem;
+    width: 3.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid #b90f1b;
+    background: var(--brand);
+    color: white;
+    box-shadow: 0 8px 24px rgba(193, 18, 31, 0.4), 0 2px 8px rgba(193, 18, 31, 0.25);
+    transition: transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 160ms ease,
+                background-color 120ms ease;
+  }
+
+  .fab-primary:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(193, 18, 31, 0.5), 0 4px 12px rgba(193, 18, 31, 0.3);
+    background-color: #a80e1a;
+  }
+
+  .fab-primary:active {
+    transform: scale(0.96);
+    box-shadow: 0 4px 12px rgba(193, 18, 31, 0.3);
+  }
+
+  .fab-primary-open {
+    background-color: #1f2937;
+    border-color: #1f2937;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3), 0 2px 8px rgba(15, 23, 42, 0.15);
+  }
+
+  .fab-primary-open:hover {
+    background-color: #111827;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.35);
+  }
+}
